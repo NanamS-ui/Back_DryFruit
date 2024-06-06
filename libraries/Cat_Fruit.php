@@ -1,85 +1,70 @@
 <?php
-class Cat_Fruit
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class Cat_fruit
 {
+    protected $CI;
 
-    private $id;
-    private $libelle;
+    private $id_cat_fruit;
+    private $wording;
 
-    private $CI;
-
-    public function __construct($id = null, $libelle = null)
+    public function __construct($id = null, $wording = null)
     {
-        $this->id = $id;
-        $this->libelle = $libelle;
         $this->CI = &get_instance();
-        $this->CI->load->model('Cat_Fruit_model');
+        $this->CI->load->model('Cat_fruit_Model');
+
+        $this->id_cat_fruit = $id;
+        $this->wording = $wording;
     }
 
-    // getters and setters 
-    public function get_Id()
+    public function get_id_cat_fruit()
     {
-        return $this->id;
+        return $this->id_cat_fruit;
     }
 
-    public function set_Id($id)
+    public function set_id_cat_fruit($id_cat_fruit)
     {
-        $this->id = $id;
+        $this->id_cat_fruit = $id_cat_fruit;
     }
 
-    public function get_Libelle()
+    public function get_wording()
     {
-        return $this->libelle;
+        return $this->wording;
     }
 
-    public function set_Libelle($libelle)
+    public function set_wording($wording)
     {
-        $this->libelle = $libelle;
+        $this->wording = $wording;
     }
 
-    //select tous les categories de fruits 
-    public function get_All_Fruits()
+    public function get_all_fruits()
     {
-        $result = $this->CI->Cat_Fruit_model->get_all();
-        return $result;
-    }
-
-    // Charger une catégorie depuis la base de données
-    // utilise la methode get_category_by_id dans le modele 
-    public function get_Fruit_By_Id($id)
-    {
-        $result = $this->CI->Cat_Fruit_model->get_by_id($id);
-        if ($result) {
-            $this->set_Id($result['id']);
-            echo $result['id'];
-            $this->set_Libelle($result['libelle']);
+        $result = $this->CI->Cat_fruit_Model->get_all();
+        $fruits = array();
+        foreach ($result as $data) {
+            $fruits[] = new Cat_fruit($data['id_cat_fruit'], $data['wording']);
         }
-        return $result ? $this : null;
+        return $fruits;
     }
 
-    // Sauvegarder une catégorie dans la base de données
-    // inserer dans la table ou la mettre a jour
-    // manao insertion raha ohatra ka mbola tsy misy le id fa raha efa misy dia manao update  
-    public function add_Fruit()
+    public function get_fruit_by_id($id)
     {
-        $data = array(
-            'libelle' => $this->get_Libelle()
-        );
-
-        if ($this->id) {
-            // Mettre à jour si l'id existe deja 
-            return $this->CI->Cat_Fruit_model->update($this->id, $data);
-        } else {
-            // Insérer un nouveau 
-            return $this->CI->Cat_Fruit_model->insert($data);
-        }
+        $data = $this->CI->Cat_fruit_Model->get_by_id($id);
+        return new Cat_fruit($data['id_cat_fruit'], $data['wording']);
     }
 
-    // Supprimer une catégorie
-    public function delete()
+    public function add_fruit($data)
     {
-        if ($this->id) {
-            return $this->CI->Cat_Fruit_model->delete_category($this->id);
-        }
-        return false;
+        return $this->CI->Cat_fruit_Model->insert($data);
+    }
+
+    public function update_fruit($id, $data)
+    {
+        return $this->CI->Cat_fruit_Model->update($id, $data);
+    }
+
+    public function delete_fruit($id)
+    {
+        return $this->CI->Cat_fruit_Model->delete($id);
     }
 }
