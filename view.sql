@@ -103,3 +103,11 @@ INNER JOIN
 WHERE 
     EXTRACT(MONTH FROM l.delivery_date) = 6 
     AND EXTRACT(YEAR FROM l.delivery_date) = 2023;
+
+
+-- Commande client 
+create or replace view v_client_orders as
+select orders.id_order , client.id_client , orders.reduction , orders.ordering_date , client.full_name , client.mail , client.phone_number
+from orders join clients_account as client on orders.id_client = client.id_client ; 
+
+SELECT * FROM v_client_orders where id_client ='CTL0001'order by ordering_date DESC limit 3 ; 

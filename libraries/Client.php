@@ -76,26 +76,27 @@ class Client
 
     public function get_all_client()
     {
-        $list = $this->CI->Client_model->get_all();
+        $list = $this->CI->Client_Model->get_all();
         return $list;
     }
 
     public function get_client_by_id($id)
     {
-        $client = $this->CI->Client_model->get_by_id($id);
+        $client = $this->CI->Client_Model->get_by_id($id);
+        $result = new Client();
         if ($client) {
-            $this->set_ClientId($client['id_client']);
-            $this->set_ClientName($client['full_name']);
-            $this->set_Email($client['mail']);
-            $this->set_Number($client['phone_number']);
+            $result->set_ClientId($client['id_client']);
+            $result->set_ClientName($client['full_name']);
+            $result->set_Email($client['mail']);
+            $result->set_Number($client['phone_number']);
         }
-        return $client;
+        return $result;
     }
 
 
     public function search_client_by_name($name)
     {
-        $client = $this->CI->Client_model->search_client($name);
+        $client = $this->CI->Client_Model->search_client($name);
         $result = array();
         if ($client) {
             foreach ($client as $client_result) {

@@ -6,69 +6,69 @@ class Ordered_Product
     private $id_product_ordered;
     private $sales_type;
     private $quantity;
-    private $id_product;
-    private $id_order;
+    private $product;
+    private $orders;
 
-    public function __construct($id_product_ordered = null, $sales_type = null, $quantity = null, $id_product = null, $id_order = null)
+    public function __construct($id_product_ordered = null, $sales_type = null, $quantity = null, Product $product = null, Orders $orders = null)
     {
         $this->id_product_ordered = $id_product_ordered;
         $this->sales_type = $sales_type;
         $this->quantity = $quantity;
-        $this->id_product = $id_product;
-        $this->id_order = $id_order;
+        $this->product = $product;
+        $this->orders = $orders;
 
         $this->CI = &get_instance();
         $this->CI->load->model('Product_Ordered_Model');
     }
 
     // Getters and setters 
-    public function getIdProductOrdered()
+    public function get_IdProductOrdered()
     {
         return $this->id_product_ordered;
     }
 
-    public function getSalesType()
+    public function get_SalesType()
     {
         return $this->sales_type;
     }
 
-    public function getQuantity()
+    public function get_Quantity()
     {
         return $this->quantity;
     }
 
-    public function getIdProduct()
+    public function get_IdProduct()
     {
-        return $this->id_product;
+        return $this->product;
     }
 
-    public function getIdOrder()
+    public function get_IdOrder()
     {
-        return $this->id_order;
+        return $this->orders;
     }
 
-    public function setIdProductOrdered($id_product_ordered)
+    public function set_IdProductOrdered($id_product_ordered)
     {
         $this->id_product_ordered = $id_product_ordered;
     }
 
-    public function setSalesType($sales_type)
+    public function set_SalesType($sales_type)
     {
         $this->sales_type = $sales_type;
     }
 
-    public function setQuantity($quantity)
+    public function set_Quantity($quantity)
     {
         $this->quantity = $quantity;
     }
 
-    public function setIdProduct($id_product)
+    public function set_IdProduct($product)
     {
-        $this->id_product = $id_product;
+        $this->product = $product;
     }
 
-    public function setIdOrder($id_order)
+    public function set_IdOrder($orders)
     {
-        $this->id_order = $id_order;
+        $this->orders = $orders;
     }
 }

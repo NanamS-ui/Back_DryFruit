@@ -6,58 +6,59 @@ class Orders
 	private $id_order;
 	private $reduction;
 	private $ordering_date;
-	private $id_client;
+	private $client;
 
-	public function __construct($id_order = null, $reduction = null, $ordering_date = null, $id_client = null)
+	public function __construct($id_order = null, $reduction = null, $ordering_date = null, Client $client = null)
 	{
 		$this->id_order = $id_order;
 		$this->reduction = $reduction;
 		$this->ordering_date = $ordering_date;
-		$this->id_client = $id_client;
+		$this->client = $client;
 
 		$this->CI = &get_instance();
 		$this->CI->load->model('Orders_Model');
 	}
 
+
 	// getters and setters 
-	public function getIdOrder()
+	public function get_IdOrder()
 	{
 		return $this->id_order;
 	}
 
-	public function getReduction()
+	public function get_Reduction()
 	{
 		return $this->reduction;
 	}
 
-	public function getOrderingDate()
+	public function get_OrderingDate()
 	{
 		return $this->ordering_date;
 	}
 
-	public function getIdClient()
+	public function get_Client()
 	{
-		return $this->id_client;
+		return $this->client;
 	}
 
-	public function setIdOrder($id_order)
+	public function set_IdOrder($id_order)
 	{
 		$this->id_order = $id_order;
 	}
 
-	public function setReduction($reduction)
+	public function set_Reduction($reduction)
 	{
 		$this->reduction = $reduction;
 	}
 
-	public function setOrderingDate($ordering_date)
+	public function set_OrderingDate($ordering_date)
 	{
 		$this->ordering_date = $ordering_date;
 	}
 
-	public function setIdClient($id_client)
+	public function set_Client($client)
 	{
-		$this->id_client = $id_client;
+		$this->client = $client;
 	}
 
 	public function get_all_orders()
@@ -65,11 +66,13 @@ class Orders
 		$order_list = $this->CI->Orders_Model->get_all();
 		$orders = array();
 		foreach ($order_list as $order) :
+			// echo $order['id_client'] ; 
+			$client = new Client();
 			$orders[] = new Orders(
 				$order['id_order'],
 				$order['reduction'],
 				$order['ordering_date'],
-				$order['id_client']
+				$client->get_client_by_id($order['id_client'])
 			);
 
 		endforeach;
@@ -96,11 +99,12 @@ class Orders
 		$order_list = $this->CI->Orders_Model->get_all_client_orders($id_client);
 		$client_order = array();
 		foreach ($order_list as $order) :
+			$client = new Client();
 			$client_order[] = new Orders(
 				$order['id_order'],
 				$order['reduction'],
 				$order['ordering_date'],
-				$order['id_client']
+				$client->get_client_by_id($order['id_client'])
 			);
 		endforeach;
 		return $client_order;
