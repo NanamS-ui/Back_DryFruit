@@ -101,4 +101,9 @@ class Stock
     {
         return $this->CI->Stock_Model->delete($id);
     }
+
+    public function get_stock_by_product_date($id_product, $renewal_date)
+    {
+        return $this->CI->Stock_Model->get_stock_by_product_date($id_product, $renewal_date);
+    }
 }

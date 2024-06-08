@@ -33,4 +33,16 @@ class Stock_Model extends CI_Model
     {
         return $this->db->delete('stock', array('id_stock' => $id));
     }
+
+    public function get_stock_by_product_date($id_product, $renewal_date)
+    {
+        $sql = "
+        SELECT *
+        FROM stock
+        WHERE id_product = ? AND DATE(renewal_date) = ?
+    ";
+
+        $query = $this->db->query($sql, array($id_product, $renewal_date));
+        return $query->row_array();
+    }
 }

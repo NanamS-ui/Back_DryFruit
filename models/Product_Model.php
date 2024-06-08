@@ -34,6 +34,11 @@ class Product_Model extends CI_Model
         return $this->db->delete('product', array('id_product' => $id));
     }
 
+    public function get_product_categories()
+    {
+        return $this->db->get('v_product_categories')->result_array();
+    }
+
     public function get_product_configuration()
     {
         return $this->db->get('v_product_configuration')->result_array();
