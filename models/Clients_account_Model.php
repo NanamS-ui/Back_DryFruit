@@ -52,4 +52,21 @@ class Clients_account_Model extends CI_Model
             return false;
         }
     }
+
+    public function get_clients_sorted_by_activity()
+    {
+        $subquery = $this->db->select('id_2, MAX(dateCommande) as last_order_date')
+                             ->from('Commande')
+                             ->group_by('id_2')
+                             ->get_compiled_select();
+                             
+        $this->db->select('Compte_clients.id, Compte_clients.pseudoName, COALESCE(last_order_date, \'1970-01-01\') as last_order_date');
+        $this->db->from('Compte_clients');
+        $this->db->join("($subquery) as subquery", 'subquery.id_2 = Compte_clients.id', 'left');
+        $this->db->order_by('last_order_date', 'DESC');
+        $query = $this->db->get();
+        
+        return $query->result_array();
+    }    
+
 }
