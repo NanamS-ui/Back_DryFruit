@@ -55,14 +55,14 @@ class Clients_account_Model extends CI_Model
 
     public function get_clients_sorted_by_activity()
     {
-        $subquery = $this->db->select('id_2, MAX(dateCommande) as last_order_date')
-                             ->from('Commande')
-                             ->group_by('id_2')
+        $subquery = $this->db->select('id_client, MAX(ordering_date) as last_order_date')
+                             ->from('order')
+                             ->group_by('id_client')
                              ->get_compiled_select();
                              
-        $this->db->select('Compte_clients.id, Compte_clients.pseudoName, COALESCE(last_order_date, \'1970-01-01\') as last_order_date');
-        $this->db->from('Compte_clients');
-        $this->db->join("($subquery) as subquery", 'subquery.id_2 = Compte_clients.id', 'left');
+        $this->db->select('clients_account.id_client, clients_account.full_name, clients_account.mail, clients_account.password, clients_account.phone_number, COALESCE(last_order_date, \'1970-01-01\') as last_order_date');
+        $this->db->from('clients_account');
+        $this->db->join("($subquery) as subquery", 'subquery.id_client = clients_account.id_client', 'left');
         $this->db->order_by('last_order_date', 'DESC');
         $query = $this->db->get();
         
