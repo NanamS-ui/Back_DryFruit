@@ -56,7 +56,7 @@ class Clients_account_Model extends CI_Model
     public function get_clients_sorted_by_activity()
     {
         $subquery = $this->db->select('id_client, MAX(ordering_date) as last_order_date')
-                             ->from('order')
+                             ->from('orders')
                              ->group_by('id_client')
                              ->get_compiled_select();
                              
