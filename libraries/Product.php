@@ -134,4 +134,28 @@ class Product
     {
         return $this->CI->Product_Model->get_product_configuration();
     }
+
+    public function get_new_products (){
+		return $this->CI->Product_Model->get_new_product(); 
+	}
+
+    // retourne un tableau de product 
+	public function get_most_saled_product(){
+		$products = $this->CI->Product_Model->get_most_saled_product();
+		$mostSaled = array();
+		foreach ($products as $product){
+			$mostSaled [] = $this->CI->Product_Model->get_by_id($product['id_product']);
+		}
+		return $mostSaled; 
+	}
+
+	public function filter_product_by_cat ($id_cat_prod){
+		return $this->CI->Product_Model->filter_product_by_cat($id_cat_prod);
+	}
+
+	public function filter_product_by_price ($cat_id = null , $minPrice , $maxPrice){
+		return $this->CI->Product_Model->filter_product_by_price($cat_id ,$minPrice , $maxPrice);
+	
+	}
+    
 }
